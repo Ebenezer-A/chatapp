@@ -1,3 +1,6 @@
+import MessageForm from "./MessageForm";
+import MyMessage from "./MyMessage";
+import ThierMessage from "./TheirMessage";
 
 const ChatFeed = (props) => {
   
@@ -10,9 +13,9 @@ const ChatFeed = (props) => {
   const renderMessage = () => {
     const keys = Object.keys(messages);
 
-    return keya.map( (key, index) => {
+    return keys.map( (key, index) => {
       const message = messages[key];
-      const lastMessageKey = index ===0 ? null : keys[index-1];
+      const lastMessageKey = index === 0 ? null : keys[index-1];
       const isMyMessage = userName === message.senders.userName;
 
       return (
@@ -21,10 +24,10 @@ const ChatFeed = (props) => {
             { isMyMessage
               ? <MyMessage message={message}/>
               : <ThierMessage message={message} lastMessage={messages
-                [lastMessageKey]} />}
+                [lastMessageKey]} /> }
           </div>
 
-          <div className="read-reciept" style={{ marginRight: isMymessage ? '18px' : '0px', marginLeft: isMyMessage ? '0px' : '68pc' }}></div>
+          <div className="read-reciept" style={{ marginRight: isMyMessage ? '18px' : '0px', marginLeft: isMyMessage ? '0px' : '68pc' }}></div>
         </div>
       );
     });
