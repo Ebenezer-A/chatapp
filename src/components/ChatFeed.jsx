@@ -10,6 +10,17 @@ const ChatFeed = (props) => {
   
   const chat = chats && chats[activeChat];
 
+  const renderReadRecepits = (message, isMyMessage) => chat.people.map( (person, index) => person.last_read === message.id && (
+    <div>
+      key = {`read_${index}`}
+      className = "read-receipt"
+      style = {{
+        float: isMyMessage ? 'right' : 'left',
+        backgroundImage : person.person.avatar && `url(${person.person.avatar})` ,
+      }}
+    </div>
+  ))
+
   const renderMessage = () => {
     const keys = Object.keys(messages);
 
@@ -20,14 +31,15 @@ const ChatFeed = (props) => {
 
       return (
         <div key={`msg_${index}`} style={{ width: "100%"}}>
-          <div className="message-blo">
+          <div className="message-block">
             { isMyMessage
               ? <MyMessage message={message}/>
               : <ThierMessage message={message} lastMessage={messages
                 [lastMessageKey]} /> }
           </div>
 
-          <div className="read-reciept" style={{ marginRight: isMyMessage ? '18px' : '0px', marginLeft: isMyMessage ? '0px' : '68pc' }}></div>
+          <div className="read-reciept" style={{ marginRight: isMyMessage ? '18px' :
+           '0px', marginLeft: isMyMessage ? '0px' : '68px' }}>{renderReadReceipts(message, isMyMessage)}</div>
         </div>
       );
     });
@@ -37,7 +49,7 @@ const ChatFeed = (props) => {
     <div className="chat-feed">
       <div className="chat-title-container">
         <div className="chat-title">{chat?.title}</div>
-        <div className="chat-">
+        <div className="chat-subtitle">
 
         </div>
         {renderMessage()}
@@ -46,7 +58,8 @@ const ChatFeed = (props) => {
           <MessageForm {...props} chatId={activeChat} />
         </div>
       </div>
-    </div>);
+    </div>
+  );
 };
 
 export default ChatFeed;
